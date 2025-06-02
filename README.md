@@ -1,113 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Dynamic Pricing in Python</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            color: #333;
-            background-color: #f4f4f4;
-        }
-        h1, h2, h3 {
-            color: #007bff;
-        }
-        p {
-            margin-bottom: 1em;
-        }
-        code {
-            background-color: #eee;
-            padding: 0.2em 0.4em;
-            border-radius: 5px;
-            font-family: monospace;
-        }
-        pre {
-            background-color: #eee;
-            padding: 1em;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: monospace;
-        }
-        ul, ol {
-            margin-bottom: 1em;
-        }
-        .important {
-            font-weight: bold;
-            color: #dc3545;
-        }
-    </style>
-</head>
-<body>
-    <h1>Advanced Dynamic Pricing in Python</h1>
+<h1>🚖 Dynamic Pricing for Cabs with Demand Prediction and Surge Optimization</h1>
 
-    <p>This project implements an advanced dynamic pricing model for ride-hailing services, incorporating machine learning for demand prediction and optimization techniques for surge multiplier calculation. It accounts for various factors influencing demand and price elasticity.</p>
+<p>
+  This project implements an <strong>Advanced Dynamic Pricing System</strong> for ride-hailing services.
+  It predicts ride demand using historical data and machine learning, then uses price elasticity modeling
+  and optimization to compute the <strong>optimal surge multiplier</strong> that maximizes revenue while
+  considering real-time factors like weather, events, and competitor pricing.
+</p>
 
-    <h2>Features</h2>
-    <ul>
-        <li><strong>Demand Prediction:</strong> Utilizes machine learning models (Random Forest, Gradient Boosting, Neural Network, Linear Regression) trained on historical data to predict rider demand.</li>
-        <li><strong>Feature Engineering:</strong> Extracts temporal features (hour, day of week) and considers location (latitude, longitude), weather, events, and competitor pricing.</li>
-        <li><strong>Model Persistence:</strong> Saves and loads trained demand models using <code>joblib</code>.</li>
-        <li><strong>Simplified Price Elasticity:</strong> Includes a basic model to estimate how price changes affect demand. (A more sophisticated model can be integrated).</li>
-        <li><strong>Optimization-Based Surge Pricing:</strong> Uses <code>scipy.optimize.minimize</code> to find a surge multiplier that aims to maximize potential revenue based on predicted demand and price elasticity.</li>
-        <li><strong>Comprehensive Simulation:</strong> Includes a simulation with more realistic data features.</li>
-    </ul>
+<hr>
 
-    <h2>Prerequisites</h2>
-    <ul>
-        <li>Python 3.x</li>
-        <li>Libraries:
-            <ul>
-                <li>pandas</li>
-                <li>numpy</li>
-                <li>scikit-learn</li>
-                <li>scipy</li>
-                <li>joblib</li>
-            </ul>
-        </li>
-    </ul>
+<h2>📌 Features</h2>
+<ul>
+  <li>📈 <strong>Demand Forecasting</strong> using Random Forest, Gradient Boosting, Neural Networks, or Linear Regression</li>
+  <li>⚡ <strong>Surge Multiplier Optimization</strong> based on price elasticity and demand-supply ratio</li>
+  <li>☁️ <strong>Context-Aware Pricing</strong> using weather, events, and competitor pricing</li>
+  <li>📊 <strong>Simulation Engine</strong> for real-time fare estimation in different city zones</li>
+  <li>💾 <strong>Model Persistence</strong> using <code>joblib</code> for loading/saving trained models</li>
+</ul>
 
-    <h2>Installation</h2>
-    <p>1. Clone the repository (if applicable) or download the Python script.</p>
-    <p>2. Install the required libraries:</p>
-    <pre><code>pip install pandas numpy scikit-learn scipy joblib</code></pre>
+<hr>
 
-    <h2>Usage</h2>
-    <p>1. **Prepare Historical Data:** Create a CSV file named <code>ride_data_advanced.csv</code> in the same directory as the Python script. This file should contain historical ride information with the following columns:</p>
-    <pre><code>timestamp,latitude,longitude,drivers_available,rider_requests,base_price,distance_km,duration_minutes,surge_multiplier,weather_condition,event_indicator,competitor_price</code></pre>
-    <p>   Ensure the data is representative of your ride-hailing service's operations.</p>
+<h2>📂 Project Structure</h2>
+<pre>
+├── ride_data_advanced.csv       # Auto-generated sample dataset for training
+├── demand_model_advanced.joblib # Saved demand prediction model
+├── dynamic_pricing.py           # Main implementation (AdvancedDynamicPricing class)
+</pre>
 
-    <p>2. **Run the Script:** Execute the Python script:</p>
-    <pre><code>python advanced_dynamic_pricing.py</code></pre>
+<hr>
 
-    <p>   - The script will attempt to load a pre-trained demand model (<code>demand_model_advanced.joblib</code>). If not found, it will train a Random Forest model using the provided historical data and save it.</p>
-    <p>   - The script will then simulate a real-time scenario with example data and print the predicted surge multiplier and estimated fare for different conditions.</p>
+<h2>🧠 Machine Learning Models</h2>
+<p>The model supports:</p>
+<ul>
+  <li><code>RandomForestRegressor</code> (default)</li>
+  <li><code>GradientBoostingRegressor</code></li>
+  <li><code>MLPRegressor</code> (Neural Network)</li>
+  <li><code>LinearRegression</code></li>
+</ul>
 
-    <p>3. **Customization:**</p>
-    <ul>
-        <li><strong>Historical Data Path:</strong> You can change the path to your historical data file in the <code>AdvancedDynamicPricing</code> class constructor.</li>
-        <li><strong>Demand Model Type:</strong> Modify the <code>train_demand_model</code> call to choose a different model ('linear', 'gradient_boosting', 'neural_network').</li>
-        <li><strong>Model Persistence Filename:</strong> Adjust the <code>demand_model_path</code> in the constructor.</li>
-        <li><strong>Base Pricing:</strong> Change the <code>base_fare</code>, <code>price_per_km</code>, and <code>price_per_minute</code> in the constructor.</li>
-        <li><strong>Optimization Bounds:</strong> Modify <code>min_surge</code> and <code>max_surge</code> in the <code>calculate_optimal_surge</code> method.</li>
-        <li><strong>Price Elasticity Model:</strong> Implement a more sophisticated price elasticity model in the <code>train_price_elasticity_model</code> and <code>predict_demand_with_elasticity</code> methods based on your data.</li>
-    </ul>
+<p>It uses <code>scikit-learn</code> for model training and evaluation.</p>
 
-    <h2>Further Enhancements (Beyond the Code)</h2>
-    <ul>
-        <li>Integrate with real-time data streams for drivers, riders, weather, and events.</li>
-        <li>Model driver response to surge pricing.</li>
-        <li>Implement more advanced geospatial analysis.</li>
-        <li>Consider user segmentation for personalized pricing.</li>
-        <li>Explore reinforcement learning for optimal long-term pricing strategies.</li>
-        <li>Implement A/B testing for different pricing models.</li>
-        <li>Regularly retrain the demand and price elasticity models with new data.</li>
-    </ul>
+<hr>
 
-    <h2>Disclaimer</h2>
-    <p>This code provides a conceptual implementation of advanced dynamic pricing. A real-world system would require robust data pipelines, extensive testing, and careful consideration of ethical and regulatory implications.</p>
+<h2>🚀 How It Works</h2>
+<ol>
+  <li>Loads historical ride data from <code>ride_data_advanced.csv</code></li>
+  <li>Trains a demand prediction model if not already saved</li>
+  <li>Predicts demand for a given real-time context (location, weather, event, etc.)</li>
+  <li>Estimates demand change using price elasticity theory</li>
+  <li>Optimizes surge multiplier to maximize expected revenue</li>
+</ol>
 
-</body>
-</html>
+<hr>
+
+<h2>📦 Requirements</h2>
+<pre><code>pip install pandas numpy scikit-learn joblib scipy</code></pre>
+
+<hr>
+
+<h2>▶️ Run the Simulation</h2>
+<pre><code>python dynamic_pricing.py</code></pre>
+
+<p>This will:</p>
+<ul>
+  <li>Generate dummy historical data with timestamps, weather, events, etc.</li>
+  <li>Train or load a demand prediction model</li>
+  <li>Simulate surge pricing for two areas with different real-time contexts</li>
+</ul>
+
+<hr>
+
+<h2>📝 Example Output</h2>
+<pre>
+Demand model (random_forest) trained. Test MSE: 12.34
+Advanced Model - Area 1 - Predicted Surge Multiplier: 1.87, Estimated Fare: 179.50 INR
+Advanced Model - Area 2 - Predicted Surge Multiplier: 1.12, Estimated Fare: 145.75 INR
+</pre>
+
+<hr>
+
+<h2>📌 Key Classes & Methods</h2>
+<ul>
+  <li><code>AdvancedDynamicPricing</code> - Main class</li>
+  <li><code>train_demand_model()</code> - Trains or loads the ML model</li>
+  <li><code>predict_demand()</code> - Predicts ride requests</li>
+  <li><code>calculate_optimal_surge()</code> - Optimizes the surge multiplier using <code>scipy.optimize</code></li>
+  <li><code>calculate_fare()</code> - Computes total fare using optimized surge</li>
+</ul>
+
+<hr>
+
+<h2>📈 Future Enhancements</h2>
+<ul>
+  <li>Train elasticity dynamically using historical price-response data</li>
+  <li>Integrate real-time APIs for weather and traffic</li>
+  <li>Deploy as a web service using Flask or FastAPI</li>
+</ul>
+
+<hr>
+
+<h2>👨‍💻 Author</h2>
+<p>Created by [Your Name]. Contributions and suggestions are welcome!</p>
